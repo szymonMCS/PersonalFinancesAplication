@@ -67,7 +67,7 @@ void PersonalFinancesAplication::menu(){
     char choice;
 
     while(true){
-        if(!isUserLoggedIn()){
+         if(!isUserLoggedIn()){
 
             choice = chooseOptionFromMainMenu();
 
