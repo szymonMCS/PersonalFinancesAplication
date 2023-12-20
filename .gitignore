@@ -2,3 +2,6 @@ obj/
 bin/
 plan/
 aplikacjaFinansowa.*
+users.xml
+incomes.xml
+outcomes.xml
