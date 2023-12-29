@@ -2,6 +2,8 @@
 #define FINANCEMANAGER_H
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 #include "Operation.h"
 #include "SupportingMethods.h"
@@ -16,6 +18,7 @@ class FinanceManager {
     ;
     void sumBalanceFromPeriod(int startDate, int endDate);
     Operation setOperationData(int date, int newId);
+    double displaySortedVector(std::vector <Operation> input);
 
 public:
     FinanceManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId){
@@ -24,6 +27,7 @@ public:
     }
     void addIncome();
     void addOutcome();
+    void anyPeriodBalance();
 
 
 

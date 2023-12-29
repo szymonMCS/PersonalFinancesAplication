@@ -9,6 +9,7 @@
 
 #include "Operation.h"
 #include "SupportingMethods.h"
+#include "DatesSupportingMethods.h"
 
 struct OperationNames {
         std::string objectName;
@@ -39,6 +40,7 @@ public:
     int getLastOperationIdFromXML(const std::string& filename);
     int getLastIncomeId();
     int getLastOutcomeId();
+    std::vector<Operation> getOperationsFromPeriod(const std::string& filename, std::string startDate, std::string endDate, int loggedInUserId);
 
     template<typename T>
     int getNewOperationIdFromVECTOR(const std::vector <T>& operations);

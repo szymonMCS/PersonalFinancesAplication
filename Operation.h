@@ -25,12 +25,12 @@ public:
     void setDate(int input);
     void setItem(std::string input);
     void setAmount(double input);
-
     int getOperationId();
     int getUserId();
     int getDate();
     std::string getItem();
     double getAmount();
+    static bool compareByDate(const Operation& first, const Operation& second);
 
 };
 #endif // OPERATION_H

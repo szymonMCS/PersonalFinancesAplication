@@ -86,3 +86,51 @@ Operation FinanceManager::setOperationData(int date, int newId) {
 
     return operation;
 }
+
+void FinanceManager::anyPeriodBalance(){
+    std::vector <Operation> balanceIncomes;
+    std::vector <Operation> balanceOutcomes;
+
+    std::string startDate = "";
+    std::cout << "Enter start date of expenses comparison in yyyy-mm-dd format" << std::endl;
+    startDate = SupportingMethods::readLine();
+    std::string endDate = "";
+    std::cout << "Enter end date of expenses comparison in yyyy-mm-dd format" << std::endl;
+    endDate = SupportingMethods::readLine();
+
+
+    balanceIncomes = financesFile.getOperationsFromPeriod("incomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
+    balanceOutcomes = financesFile.getOperationsFromPeriod("outcomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
+
+    system("cls");
+    std::cout << "== Incomes == " << std::endl << std::endl;
+    double incomesSum = displaySortedVector(balanceIncomes);
+    std::cout << std::endl << std::endl << "== Outcomes == " << std::endl << std::endl;
+    double outcomesSum = displaySortedVector(balanceOutcomes);
+
+    std::cout << std::endl << "Incomes sum = " << incomesSum << std::endl;
+    std::cout << "Outcomes sum = " << outcomesSum << std::endl << std::endl;
+
+    double balance = incomesSum - outcomesSum;
+
+    if (incomesSum < outcomesSum) {
+        std::cout << "Balance: -" << -balance << std::endl;
+    } else {
+        std::cout << "Balance: " << balance << std::endl;
+    }
+
+    system("pause");
+}
+
+double FinanceManager::displaySortedVector (std::vector <Operation> input){
+    double sum = 0.00;
+    std::sort(input.begin(), input.end(), Operation::compareByDate);
+
+    for (auto operation : input) {
+        std::cout << "Date: " << DatesSupportingMethods::intDateToString(operation.getDate()) << ", "
+                  << "Item: " << operation.getItem() << ", "
+                  << "Amount: " << operation.getAmount() << std::endl;
+                  sum += operation.getAmount();
+    }
+    return sum;
+}
