@@ -21,7 +21,7 @@ class PersonalFinancesAplication{
     void addOutcome();
     //void currentMonthBalance();
     //void previousMonthBalance();
-    //void anyPeriodBalance();
+    void anyPeriodBalance();
     void userLogOut();
     void passwordChange();
     bool isUserLoggedIn();

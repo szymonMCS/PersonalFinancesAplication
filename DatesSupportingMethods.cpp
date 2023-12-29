@@ -50,7 +50,7 @@ bool DatesSupportingMethods::isDateValid(int dateToCheck) {
 bool DatesSupportingMethods::isStringDateEnteredCorrectly(const std::string &date) {
     std::string dateWithoutLines;
 
-   if (date.size() != 10 || date[4] != '-' || date[7] != '-') {
+    if (date.size() != 10 || date[4] != '-' || date[7] != '-') {
         std::cout << "date is invalid, try again" << std::endl;
         return false;
     }
@@ -97,4 +97,37 @@ int DatesSupportingMethods::getDifferentDate() {
     } while(true);
 
     return date;
+}
+
+std::vector<int> DatesSupportingMethods::stringDateToVector(std::string inputDate) {
+    std::vector <int> dateIntVector;
+    char del = '-';
+
+    std::stringstream ss(inputDate);
+    std::string datePart;
+
+    while (!ss.eof()) {
+        getline(ss, datePart, del);
+        dateIntVector.push_back(std::atoi(datePart.c_str()));
+    }
+    return dateIntVector;
+}
+
+std::string DatesSupportingMethods::intDateToString (int inputDate) {
+    std::stringstream ss;
+    std::string stringDate = "";
+    std::string modifiedStringDate = "";
+
+    ss << inputDate;
+    stringDate = ss.str();
+
+    for (size_t i = 0; i < stringDate.size(); i++) {
+        if (i <= 3 || i == 5 || i > 6) {
+            modifiedStringDate += stringDate[i];
+        } else if (i == 4 || i == 6) {
+            modifiedStringDate += '-';
+            modifiedStringDate += stringDate[i];
+        }
+    }
+    return modifiedStringDate;
 }

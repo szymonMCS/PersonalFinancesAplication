@@ -39,3 +39,7 @@ std::string Operation::getItem(){
 double Operation::getAmount(){
     return amount;
 }
+
+bool Operation::compareByDate (const Operation& first, const Operation& second){
+    return first.getDate() < second.getDate();
+}

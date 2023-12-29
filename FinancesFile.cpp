@@ -45,7 +45,7 @@ std::vector <Operation> FinancesFile::loadOperationsFromFile(std::vector <Operat
         if(xml.FindChildElem(names.userIdContainerName)) {
             int xmlUserId = std::stoi(xml.GetData());
 
-            if(xmlUserId == loggedInUserId){
+            if(xmlUserId == loggedInUserId) {
                 xml.ResetChildPos();
                 xml.FindElem(names.idContainerName);
                 operation.setOperationId(std::atoi(xml.GetData().c_str()));
@@ -120,10 +120,9 @@ void FinancesFile::addOperationToFile(Operation input, const std::string& filena
 
     xml.Save(filename);
 
-    if (filename == "incomes.xml"){
+    if (filename == "incomes.xml") {
         lastIncomeId ++;
-    }
-    else if(filename == "outcomes.xml"){
+    } else if(filename == "outcomes.xml") {
         lastOutcomeId ++;
     }
 }
@@ -165,10 +164,64 @@ int FinancesFile::getNewOperationIdFromVECTOR(const std::vector <T>& operations)
         return operations.back().getOperationId() + 1;
 }
 
-int FinancesFile::getLastIncomeId(){
+int FinancesFile::getLastIncomeId() {
     return lastIncomeId;
 }
 
-int FinancesFile::getLastOutcomeId(){
+int FinancesFile::getLastOutcomeId() {
     return lastOutcomeId;
+}
+
+std::vector<Operation> FinancesFile::getOperationsFromPeriod(const std::string& filename, std::string startDate, std::string endDate, int loggedInUserId) {
+    std::vector<Operation> operations;
+    Operation operation;
+    OperationNames names = namesForFiles(filename);
+
+    int comparisonStart, comparisonEnd;
+
+    comparisonStart = DatesSupportingMethods::stringDateToInt(startDate);
+    comparisonEnd = DatesSupportingMethods::stringDateToInt(endDate);
+
+    CMarkup xml;
+
+    bool fileExists = xml.Load(filename.c_str());
+
+    if (!fileExists) {
+        xml.AddElem(names.mainFolderName);
+        xml.IntoElem();
+    } else {
+        xml.ResetPos();
+        if (!xml.FindElem(names.mainFolderName)) {
+            std::cout << "Error during opening file" << std::endl;
+            return;
+        }
+        xml.IntoElem();
+
+        while (xml.FindElem(names.subFolderName)) {
+            xml.IntoElem();
+            xml.FindElem(names.userIdContainerName);
+            int xmlUserId = std::stoi(xml.GetData().c_str());
+            if(xmlUserId == loggedInUserId) {
+                xml.FindElem(names.dateContainerName);
+                int dateToCompare = std::stoi(xml.GetData().c_str());
+                xml.ResetMainPos();
+                if ((dateToCompare >= comparisonStart) && (dateToCompare <= comparisonEnd)) {
+                    xml.FindElem(names.idContainerName);
+                    operation.setOperationId(std::atoi(xml.GetData().c_str()));
+                    xml.FindElem(names.userIdContainerName);
+                    operation.setUserId(std::atoi(xml.GetData().c_str()));
+                    xml.FindElem(names.dateContainerName);
+                    operation.setDate(std::atoi(xml.GetData().c_str()));
+                    xml.FindElem(names.itemContainerName);
+                    operation.setItem(xml.GetData());
+                    xml.FindElem(names.amountContainerName);
+                    operation.setAmount(std::stod(xml.GetData().c_str()));
+                    operations.push_back(operation);
+                }
+            }
+            xml.OutOfElem();
+        }
+        xml.OutOfElem();
+    }
+    return operations;
 }

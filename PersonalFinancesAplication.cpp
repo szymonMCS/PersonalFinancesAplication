@@ -51,7 +51,9 @@ void PersonalFinancesAplication::addOutcome(){
 }
 //void PersonalFinancesAplication::currentMonthBalance(){}
 //void PersonalFinancesAplication::previousMonthBalance(){}
-//void PersonalFinancesAplication::anyPeriodBalance(){}
+void PersonalFinancesAplication::anyPeriodBalance(){
+    financeManager -> anyPeriodBalance();
+}
 
 void PersonalFinancesAplication::userLogOut(){
     userManager.logOut();
@@ -89,7 +91,7 @@ void PersonalFinancesAplication::menu(){
                 case '2' : addOutcome();           break;
                 //case '3' : currentMonthBalance();  break;
                 //case '4' : previousMonthBalance(); break;
-                //case '5' : anyPeriodBalance();     break;
+                case '5' : anyPeriodBalance();     break;
                 case '6' : passwordChange();       break;
                 case '7' : userLogOut();           break;
                 default:
