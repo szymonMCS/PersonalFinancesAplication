@@ -22,7 +22,7 @@ OperationNames FinancesFile::namesForFiles(const std::string& filename) {
     return operationNames;
 }
 
-std::vector <Operation> FinancesFile::loadOperationsFromFile(std::vector <Operation>& input, const std::string& filename, int loggedInUserId, const Operation& operation) {
+void FinancesFile::loadOperationsFromFile(std::vector <Operation>& input, const std::string& filename, int loggedInUserId, Operation operation) {
     OperationNames names = namesForFiles(filename);
     CMarkup xml;
 
@@ -70,9 +70,9 @@ std::vector <Operation> FinancesFile::loadLoggedInUserIncomes(int loggedInUserId
 
     std::vector<Operation> incomes;
 
-    incomes = loadOperationsFromFile(incomes,filename,loggedInUserId,income);
+    loadOperationsFromFile(incomes,filename,loggedInUserId,income);
 
-    int lastIncomeId = getLastOperationIdFromXML(filename);
+    lastIncomeId = getLastOperationIdFromXML(filename);
 
     return incomes;
 }
@@ -83,10 +83,9 @@ std::vector<Operation> FinancesFile::loadLoggedInUserOutcomes(int loggedInUserId
 
     std::vector<Operation> outcomes;
 
-    outcomes = loadOperationsFromFile(outcomes,filename,loggedInUserId,outcome);
+    loadOperationsFromFile(outcomes,filename,loggedInUserId,outcome);
 
-    //jak pliku nie ma albo jest pusty to trzeba dac 1
-    int lastOutcomeId = getLastOperationIdFromXML(filename);
+    lastOutcomeId = getLastOperationIdFromXML(filename);
 
     return outcomes;
 }
@@ -156,14 +155,6 @@ int FinancesFile::getLastOperationIdFromXML(const std::string& filename) {
     return lastOperationId;
 }
 
-template<typename T>
-int FinancesFile::getNewOperationIdFromVECTOR(const std::vector <T>& operations) {
-    if (operations.empty())
-        return 1;
-    else
-        return operations.back().getOperationId() + 1;
-}
-
 int FinancesFile::getLastIncomeId() {
     return lastIncomeId;
 }
@@ -193,7 +184,7 @@ std::vector<Operation> FinancesFile::getOperationsFromPeriod(const std::string& 
         xml.ResetPos();
         if (!xml.FindElem(names.mainFolderName)) {
             std::cout << "Error during opening file" << std::endl;
-            return;
+            return operations;
         }
         xml.IntoElem();
 

@@ -87,42 +87,119 @@ Operation FinanceManager::setOperationData(int date, int newId) {
     return operation;
 }
 
-void FinanceManager::anyPeriodBalance(){
-    std::vector <Operation> balanceIncomes;
-    std::vector <Operation> balanceOutcomes;
+void FinanceManager::anyPeriodBalance() {
 
     std::string startDate = "";
-    std::cout << "Enter start date of expenses comparison in yyyy-mm-dd format" << std::endl;
-    startDate = SupportingMethods::readLine();
+    do {
+        std::cout << "Enter start date of expenses comparison in yyyy-mm-dd format" << std::endl;
+        startDate = SupportingMethods::readLine();
+    } while(!DatesSupportingMethods::dateCheck(startDate));
+
     std::string endDate = "";
-    std::cout << "Enter end date of expenses comparison in yyyy-mm-dd format" << std::endl;
-    endDate = SupportingMethods::readLine();
+    do {
+        std::cout << "Enter end date of expenses comparison in yyyy-mm-dd format" << std::endl;
+        endDate = SupportingMethods::readLine();
+    } while(!DatesSupportingMethods::dateCheck(endDate));
 
-
-    balanceIncomes = financesFile.getOperationsFromPeriod("incomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
-    balanceOutcomes = financesFile.getOperationsFromPeriod("outcomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
-
-    system("cls");
-    std::cout << "== Incomes == " << std::endl << std::endl;
-    double incomesSum = displaySortedVector(balanceIncomes);
-    std::cout << std::endl << std::endl << "== Outcomes == " << std::endl << std::endl;
-    double outcomesSum = displaySortedVector(balanceOutcomes);
-
-    std::cout << std::endl << "Incomes sum = " << incomesSum << std::endl;
-    std::cout << "Outcomes sum = " << outcomesSum << std::endl << std::endl;
-
-    double balance = incomesSum - outcomesSum;
-
-    if (incomesSum < outcomesSum) {
-        std::cout << "Balance: -" << -balance << std::endl;
-    } else {
-        std::cout << "Balance: " << balance << std::endl;
-    }
-
-    system("pause");
+    balance(startDate, endDate);
 }
 
-double FinanceManager::displaySortedVector (std::vector <Operation> input){
+void FinanceManager::currentMontBalance() {
+    std::string startDate = "";
+    std::string endDate = "";
+
+    endDate = DatesSupportingMethods::intDateToString(DatesSupportingMethods::getCurrentDate());
+    startDate = endDate;
+    startDate[8] = '0';
+    startDate[9] = '1';
+
+    balance(startDate, endDate);
+}
+void FinanceManager::previousMonthBalance() {
+    std::string startDate = "";
+    std::string endDate = "";
+    std::string currentDate = "";
+    std::vector <int> newDateVector;
+    currentDate = DatesSupportingMethods::intDateToString(DatesSupportingMethods::getCurrentDate());
+    newDateVector = DatesSupportingMethods::stringDateToVector(currentDate);
+
+    if(newDateVector[1] == 1) {
+        startDate += std::to_string(newDateVector[0] - 1);
+        startDate += '-';
+        startDate += "12";
+        startDate += '-';
+        startDate += "01";
+        endDate += std::to_string(newDateVector[0] - 1);
+        endDate += '-';
+        endDate += "12";
+        endDate += '-';
+        endDate += "31";
+    } else {
+        newDateVector[1] = (newDateVector[1] - 1);
+        startDate += std::to_string(newDateVector[0]);
+        startDate += '-';
+        startDate += std::to_string(newDateVector[1]);
+        startDate += '-';
+        startDate += "01";
+        endDate += std::to_string(newDateVector[0]);
+        endDate += '-';
+        endDate += std::to_string(newDateVector[1]);
+        endDate += '-';
+        endDate += std::to_string(DatesSupportingMethods::howManyDays(newDateVector[0], newDateVector[1]));
+    }
+    balance(startDate, endDate);
+}
+
+void FinanceManager::balance(std::string startDate, std::string endDate) {
+    std::vector <Operation> balanceIncomes;
+    std::vector <Operation> balanceOutcomes;
+    double incomesSum = 0.00;
+    double outcomesSum = 0.00;
+    double balance = 0.00;
+
+    char character;
+    system("cls");
+    std::cout << "confirm by entering 'y' button. Press any other button to abort... " << std::endl;
+    std::cout << "start date : " << startDate << std::endl;
+    std::cout << "end date   : " << endDate << std::endl;
+    character = SupportingMethods::readChar();
+    if (character == 'y') {
+        balanceIncomes = financesFile.getOperationsFromPeriod("incomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
+        balanceOutcomes = financesFile.getOperationsFromPeriod("outcomes.xml", startDate, endDate, LOGGED_IN_USER_ID);
+
+        system("cls");
+        if(!balanceIncomes.empty()) {
+            std::cout << "== Incomes == " << std::endl << std::endl;
+            incomesSum = displaySortedVector(balanceIncomes);
+            std::cout << std::endl << "Incomes sum = " << incomesSum << std::endl;
+        } else {
+            std::cout << "Logged in user has no incomes in this period " << std::endl;
+        }
+
+        if(!balanceOutcomes.empty()) {
+            std::cout << std::endl << std::endl << "== Outcomes == " << std::endl << std::endl;
+            outcomesSum = displaySortedVector(balanceOutcomes);
+            std::cout << std::endl << "Outcomes sum = " << outcomesSum << std::endl << std::endl;
+        } else {
+            std::cout << "Logged in user has no outcomes in this period " << std::endl;
+        }
+
+        balance = incomesSum - outcomesSum;
+
+        if (incomesSum < outcomesSum) {
+            std::cout << "Balance: -" << -balance << std::endl;
+        } else {
+            std::cout << "Balance: " << balance << std::endl;
+        }
+
+        system("pause");
+
+    } else {
+        system("pause");
+    }
+}
+
+double FinanceManager::displaySortedVector (std::vector <Operation> input) {
     double sum = 0.00;
     std::sort(input.begin(), input.end(), Operation::compareByDate);
 
@@ -130,7 +207,7 @@ double FinanceManager::displaySortedVector (std::vector <Operation> input){
         std::cout << "Date: " << DatesSupportingMethods::intDateToString(operation.getDate()) << ", "
                   << "Item: " << operation.getItem() << ", "
                   << "Amount: " << operation.getAmount() << std::endl;
-                  sum += operation.getAmount();
+        sum += operation.getAmount();
     }
     return sum;
 }

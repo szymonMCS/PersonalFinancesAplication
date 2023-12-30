@@ -21,16 +21,16 @@ class FinanceManager {
     double displaySortedVector(std::vector <Operation> input);
 
 public:
-    FinanceManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId){
+    FinanceManager(int loggedInUserId) : LOGGED_IN_USER_ID(loggedInUserId) {
         incomes = financesFile.loadLoggedInUserIncomes(LOGGED_IN_USER_ID);
         outcomes = financesFile.loadLoggedInUserOutcomes(LOGGED_IN_USER_ID);
     }
     void addIncome();
     void addOutcome();
+    void balance(std::string startDate, std::string endDate);
     void anyPeriodBalance();
-
-
-
+    void currentMontBalance();
+    void previousMonthBalance();
 };
 
 #endif // FINANCEMANAGER_H

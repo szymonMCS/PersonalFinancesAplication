@@ -11,17 +11,18 @@
 #include "SupportingMethods.h"
 
 
-class DatesSupportingMethods{
+class DatesSupportingMethods {
 
 public:
     static int getCurrentDate();
     static int howManyDays(int year, int month);
     static bool isDateValid(int dateToCheck);
-    static int stringDateToInt(std::string& date);
+    static int stringDateToInt(const std::string& date);
     static bool isStringDateEnteredCorrectly(const std::string& date);
     static int getDifferentDate();
     static std::vector<int> stringDateToVector(std::string inputDate);
     static std::string intDateToString (int inputDate);
+    static bool dateCheck (const std::string& date);
 
 };
 #endif // DATESSUPPORTINGMETHODS_H

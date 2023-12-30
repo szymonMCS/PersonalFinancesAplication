@@ -1,6 +1,6 @@
 #include "UsersFile.h"
 
-void UsersFile::addUserToFile(User user){
+void UsersFile::addUserToFile(User user) {
 
     CMarkup xml;
 
@@ -30,40 +30,40 @@ void UsersFile::addUserToFile(User user){
     xml.Save("users.xml");
 }
 
-void UsersFile::editUserPassword(int id, std::string newPassword){
+void UsersFile::editUserPassword(int id, std::string newPassword) {
     CMarkup xml;
 
     bool fileExists = xml.Load("users.xml");
 
-    if(!fileExists){
+    if(!fileExists) {
         std::cout << "File doesn't exist" << std::endl;
     } else {
         xml.ResetPos();
         if (!xml.FindElem("USERS")) {
             std::cout << "Error during opening file" << std::endl;
             return;
-      }
-      xml.IntoElem();
+        }
+        xml.IntoElem();
     }
 
-    while (xml.FindElem("USER")){
+    while (xml.FindElem("USER")) {
         xml.FindChildElem("userId");
-        if (std::atoi(xml.GetChildData().c_str()) == id){
-                if (xml.FindChildElem("password")){
-                    xml.SetChildData(newPassword);
-                    std::cout << "Password updated succesfully" << std::endl;
-                    return;
-                } else {
-                    std::cout << "Error: Password element not found" << std::endl;
-                    return;
-                }
+        if (std::atoi(xml.GetChildData().c_str()) == id) {
+            if (xml.FindChildElem("password")) {
+                xml.SetChildData(newPassword);
+                std::cout << "Password updated succesfully" << std::endl;
+                return;
+            } else {
+                std::cout << "Error: Password element not found" << std::endl;
+                return;
+            }
         }
         xml.OutOfElem();
     }
     xml.Save("users.xml");
 }
 
-std::vector <User> UsersFile::readUsersFromFile(){
+std::vector <User> UsersFile::readUsersFromFile() {
     User user;
     std::vector <User> users;
 
@@ -78,27 +78,27 @@ std::vector <User> UsersFile::readUsersFromFile(){
         xml.ResetPos();
         if (!xml.FindElem("USERS")) {
             std::cout << "Error during opening file" << std::endl;
-            return;
+            return users
+            ;
         }
         xml.IntoElem();
     }
 
-    while (xml.FindElem("USER"))
-        {
-            xml.IntoElem();
-            xml.FindElem("userId");
-            user.setUserId(std::atoi(xml.GetData().c_str()));
-            xml.FindElem("login");
-            user.setLogin(xml.GetData());
-            xml.FindElem("password");
-            user.setPassword(xml.GetData());
-            xml.FindElem("name");
-            user.setName(xml.GetData());
-            xml.FindElem("surname");
-            user.setSurname(xml.GetData());
-            xml.OutOfElem();
+    while (xml.FindElem("USER")) {
+        xml.IntoElem();
+        xml.FindElem("userId");
+        user.setUserId(std::atoi(xml.GetData().c_str()));
+        xml.FindElem("login");
+        user.setLogin(xml.GetData());
+        xml.FindElem("password");
+        user.setPassword(xml.GetData());
+        xml.FindElem("name");
+        user.setName(xml.GetData());
+        xml.FindElem("surname");
+        user.setSurname(xml.GetData());
+        xml.OutOfElem();
 
-            users.push_back(user);
-        }
+        users.push_back(user);
+    }
     return users;
 }
