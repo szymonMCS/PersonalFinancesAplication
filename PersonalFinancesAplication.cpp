@@ -1,15 +1,15 @@
 #include "PersonalFinancesAplication.h"
 
-void PersonalFinancesAplication::userRegistration(){
+void PersonalFinancesAplication::userRegistration() {
     userManager.userRegistration();
 }
-void PersonalFinancesAplication::userLogin(){
+void PersonalFinancesAplication::userLogin() {
     userManager.userLoggingIn();
-    if (isUserLoggedIn()){
+    if (isUserLoggedIn()) {
         financeManager = new FinanceManager(userManager.getLoggedInUserId());
     }
 }
-char PersonalFinancesAplication::chooseOptionFromMainMenu(){
+char PersonalFinancesAplication::chooseOptionFromMainMenu() {
     system("cls");
 
     char choice;
@@ -24,7 +24,7 @@ char PersonalFinancesAplication::chooseOptionFromMainMenu(){
 
     return choice;
 }
-char PersonalFinancesAplication::chooseOptionFromUserMenu(){
+char PersonalFinancesAplication::chooseOptionFromUserMenu() {
     system("cls");
 
     char choice;
@@ -43,58 +43,63 @@ char PersonalFinancesAplication::chooseOptionFromUserMenu(){
 
     return choice;
 }
-void PersonalFinancesAplication::addIncome(){
+void PersonalFinancesAplication::addIncome() {
     financeManager -> addIncome();
 }
-void PersonalFinancesAplication::addOutcome(){
+void PersonalFinancesAplication::addOutcome() {
     financeManager -> addOutcome();
 }
-//void PersonalFinancesAplication::currentMonthBalance(){}
-//void PersonalFinancesAplication::previousMonthBalance(){}
-void PersonalFinancesAplication::anyPeriodBalance(){
+void PersonalFinancesAplication::currentMonthBalance() {
+    financeManager -> currentMontBalance();
+}
+
+void PersonalFinancesAplication::previousMonthBalance() {
+    financeManager -> previousMonthBalance();
+}
+
+void PersonalFinancesAplication::anyPeriodBalance() {
     financeManager -> anyPeriodBalance();
 }
 
-void PersonalFinancesAplication::userLogOut(){
+void PersonalFinancesAplication::userLogOut() {
     userManager.logOut();
 }
-void PersonalFinancesAplication::passwordChange(){
+void PersonalFinancesAplication::passwordChange() {
     userManager.loggedInUserPasswordChange();
 }
-bool PersonalFinancesAplication::isUserLoggedIn(){
+bool PersonalFinancesAplication::isUserLoggedIn() {
     return userManager.isUserLoggedIn();
 }
 
-void PersonalFinancesAplication::menu(){
+void PersonalFinancesAplication::menu() {
     char choice;
 
-    while(true){
-         if(!isUserLoggedIn()){
+    while(true) {
+        if(!isUserLoggedIn()) {
 
             choice = chooseOptionFromMainMenu();
 
-            switch(choice){
-                case '1' : userRegistration(); break;
-                case '2' : userLogin();        break;
-                case '9' : exit(0);            break;
-                default:
+            switch(choice) {
+            case '1' : userRegistration(); break;
+            case '2' : userLogin();        break;
+            case '9' : exit(0);            break;
+            default:
                 std::cout << std::endl << "Incorrect choice, try again." << std::endl << std::endl;
                 system("pause");
                 break;
             }
-        }
-        else{
+        } else {
             choice = chooseOptionFromUserMenu();
 
-            switch(choice){
-                case '1' : addIncome();            break;
-                case '2' : addOutcome();           break;
-                //case '3' : currentMonthBalance();  break;
-                //case '4' : previousMonthBalance(); break;
-                case '5' : anyPeriodBalance();     break;
-                case '6' : passwordChange();       break;
-                case '7' : userLogOut();           break;
-                default:
+            switch(choice) {
+            case '1' : addIncome();            break;
+            case '2' : addOutcome();           break;
+            case '3' : currentMonthBalance();  break;
+            case '4' : previousMonthBalance(); break;
+            case '5' : anyPeriodBalance();     break;
+            case '6' : passwordChange();       break;
+            case '7' : userLogOut();           break;
+            default:
                 std::cout << std::endl << "Incorrect choice, try again." << std::endl << std::endl;
                 system("pause");
                 break;

@@ -86,7 +86,7 @@ int SupportingMethods::readInt() {
     return number;
 }
 
-static bool SupportingMethods::doesHaveOnlyDigits(std::string& input) {
+bool SupportingMethods::doesHaveOnlyDigits(std::string& input) {
     std::string::iterator it = input.begin();
     while (it != input.end()) {
         if (isalpha(*it)) {

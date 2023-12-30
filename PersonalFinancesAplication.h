@@ -8,10 +8,9 @@
 #include "SupportingMethods.h"
 
 
-class PersonalFinancesAplication{
+class PersonalFinancesAplication {
     UserManager userManager;
     FinanceManager *financeManager;
-
 
     void userRegistration();
     void userLogin();
@@ -19,8 +18,8 @@ class PersonalFinancesAplication{
     char chooseOptionFromUserMenu();
     void addIncome();
     void addOutcome();
-    //void currentMonthBalance();
-    //void previousMonthBalance();
+    void currentMonthBalance();
+    void previousMonthBalance();
     void anyPeriodBalance();
     void userLogOut();
     void passwordChange();

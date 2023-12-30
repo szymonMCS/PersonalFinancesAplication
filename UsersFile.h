@@ -11,7 +11,7 @@
 #include "User.h"
 #include "SupportingMethods.h"
 
-class UsersFile : public XmlFile{
+class UsersFile : public XmlFile {
 
 public:
     UsersFile(std::string usersFileName) : XmlFile(usersFileName) {};

@@ -24,7 +24,7 @@ struct OperationNames {
 
 class FinancesFile {
         OperationNames namesForFiles(const std::string& filename);
-        std::vector <Operation> loadOperationsFromFile(std::vector <Operation>& input, const std::string& filename, int loggedInUserId, const Operation& operation);
+        void loadOperationsFromFile(std::vector <Operation>& input, const std::string& filename, int loggedInUserId, Operation operation);
 public:
     int lastIncomeId;
     int lastOutcomeId;
@@ -41,12 +41,6 @@ public:
     int getLastIncomeId();
     int getLastOutcomeId();
     std::vector<Operation> getOperationsFromPeriod(const std::string& filename, std::string startDate, std::string endDate, int loggedInUserId);
-
-    template<typename T>
-    int getNewOperationIdFromVECTOR(const std::vector <T>& operations);
-
-
-
 };
 
 

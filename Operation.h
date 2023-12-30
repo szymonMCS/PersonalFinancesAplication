@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class Operation{
+class Operation {
 
     int operationId;
     int userId;
@@ -12,7 +12,7 @@ class Operation{
     double amount;
 
 public:
-    Operation(int operationId = 0, int userId = 0, int date = 0, std::string item = "", double amount = 0.0){
+    Operation(int operationId = 0, int userId = 0, int date = 0, std::string item = "", double amount = 0.0) {
         this -> operationId = operationId;
         this -> userId = userId;
         this -> date = date;
@@ -25,12 +25,11 @@ public:
     void setDate(int input);
     void setItem(std::string input);
     void setAmount(double input);
-    int getOperationId();
-    int getUserId();
-    int getDate();
-    std::string getItem();
-    double getAmount();
+    int getOperationId() const;
+    int getUserId() const;
+    int getDate() const;
+    std::string getItem() const;
+    double getAmount() const;
     static bool compareByDate(const Operation& first, const Operation& second);
-
 };
 #endif // OPERATION_H

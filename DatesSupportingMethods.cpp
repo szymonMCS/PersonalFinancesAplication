@@ -25,7 +25,7 @@ int DatesSupportingMethods::howManyDays(int year, int month) {
     return calculatedDaysAmount;
 }
 
-int DatesSupportingMethods::stringDateToInt(std::string& input) {
+int DatesSupportingMethods::stringDateToInt(const std::string& input) {
     std::string stringDate = "";
 
     for (char character : input) {
@@ -130,4 +130,16 @@ std::string DatesSupportingMethods::intDateToString (int inputDate) {
         }
     }
     return modifiedStringDate;
+}
+
+bool DatesSupportingMethods::dateCheck (const std::string& date) {
+    if (isStringDateEnteredCorrectly(date)) {
+        if(isDateValid(stringDateToInt(date))) {
+            return true;
+        }
+    } else {
+        std::cout << "date has been entered incorrectly try again..." << std::endl;
+        return false;
+    }
+    return false;
 }
