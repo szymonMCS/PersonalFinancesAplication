@@ -20,7 +20,6 @@ class UserManager{
     int setNewUserId();
     bool doesLoginExists(std::string login);
 
-
 public:
     UserManager(std::string usersFileName) : usersFile(usersFileName) {
         loggedInUserId = 0;
@@ -33,7 +32,6 @@ public:
     void loggedInUserPasswordChange();
     void logOut();
     bool isUserLoggedIn();
-
 };
 
 #endif // USERMANAGER_H

@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include "Markup.h"
 
+#include "XmlFile.h"
 #include "Operation.h"
 #include "SupportingMethods.h"
 #include "DatesSupportingMethods.h"
@@ -22,7 +23,7 @@ struct OperationNames {
         std::string amountContainerName;
 };
 
-class FinancesFile {
+class FinancesFile{
         OperationNames namesForFiles(const std::string& filename);
         void loadOperationsFromFile(std::vector <Operation>& input, const std::string& filename, int loggedInUserId, Operation operation);
 public:
@@ -42,6 +43,5 @@ public:
     int getLastOutcomeId();
     std::vector<Operation> getOperationsFromPeriod(const std::string& filename, std::string startDate, std::string endDate, int loggedInUserId);
 };
-
 
 #endif // FINANCESFILE_H
