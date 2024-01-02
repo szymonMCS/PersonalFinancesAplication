@@ -15,13 +15,6 @@ int SupportingMethods::stringToIntConversion(std::string number) {
     return numberInt;
 }
 
-std::string SupportingMethods::doubleToStringConversion(double number) {
-    std::ostringstream ss;
-    ss << number;
-    std::string str = ss.str();
-    return str;
-}
-
 double SupportingMethods::stringToDouble(std::string& input) {
     std::replace(input.begin(), input.end(), ',', '.');
 
@@ -38,14 +31,6 @@ std::string SupportingMethods::readLine() {
     return input;
 }
 
-std::string SupportingMethods::changeFirstLetterToCapitalRestToLowercase(std::string text) {
-    if (!text.empty()) {
-        transform(text.begin(), text.end(), text.begin(), ::tolower);
-        text[0] = toupper(text[0]);
-    }
-    return text;
-}
-
 char SupportingMethods::readChar() {
     std::string input = "";
     char character  = {0};
@@ -60,15 +45,6 @@ char SupportingMethods::readChar() {
         std::cout << "This is not a single character. Try again. " << std::endl;
     }
     return character;
-}
-
-std::string SupportingMethods::getNumber(std::string text, int charPos) {
-    std::string number = "";
-    while(isdigit(text[charPos]) == true) {
-        number += text[charPos];
-        charPos ++;
-    }
-    return number;
 }
 
 int SupportingMethods::readInt() {

@@ -115,7 +115,7 @@ void FinancesFile::addOperationToFile(Operation input, const std::string& filena
     xml.AddElem(names.userIdContainerName, SupportingMethods::intToStringConversion(input.getUserId()));
     xml.AddElem(names.dateContainerName, SupportingMethods::intToStringConversion(input.getDate()));
     xml.AddElem(names.itemContainerName, input.getItem());
-    xml.AddElem(names.amountContainerName, SupportingMethods::doubleToStringConversion(input.getAmount()));
+    xml.AddElem(names.amountContainerName, std::to_string(input.getAmount()));
 
     xml.Save(filename);
 
